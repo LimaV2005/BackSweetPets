@@ -44,6 +44,7 @@ router.post('/avaliar', loginverify, pedidosController.avaliarProduto) // avalia
 
 //ROTAS DELETE   --------------
 router.delete('/del', cadastroController.delete)//deletar usuário
+router.delete('/deletarproduto', adminverify, produtoController.deletarProduto)// deletar produto 
 router.delete('/carrinhodel', loginverify, carrinhoController.removeCarrinho)//remover do carrinho
 router.delete('/listadel', loginverify, listadesejosController.removeLista)//remover da lista de desejos
 router.delete('/resetcarrinho', carrinhoController.deletarCarrinho) //resetar carrinho

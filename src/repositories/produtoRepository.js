@@ -70,5 +70,19 @@ module.exports = {
     
   },
 
+  async deletarProduto(id){
+    try {
+      const user = await Produto.findOne({ where: { id } });
+      if (!user) {
+        return ("Produto não encontrado, verifique o id");
+      } else {
+        await Produto.destroy({ where: { id } });
+        return ("produto excluido");
+      }
+    } catch (error) {
+      return error
+    }
+  }
+
   
 };

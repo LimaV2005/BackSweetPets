@@ -27,5 +27,11 @@ module.exports = {
     const {nome_produto, descricao, preco, categoria} = req.body
     const row = await produtoRepository.updateProduct(id, nome_produto, descricao, preco, categoria)
     res.json(row)
+  },
+
+  async deletarProduto(req,res){
+    const {id} = req.body
+    const row = await produtoRepository.deletarProduto(id)
+    res.json(row)
   }
 }

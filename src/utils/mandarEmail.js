@@ -37,7 +37,7 @@ async function mandarEmail(req, res, next) {
       });
   
       console.log(`Email enviado para ${nome}`);
-      next(); // Avançar para o próximo middleware ou rota após o email ser enviado com sucesso
+      next(); 
     } catch (error) {
       console.error('Erro ao enviar o email:', error);
       return res.status(500).json({ message: "Erro ao enviar o email" });
