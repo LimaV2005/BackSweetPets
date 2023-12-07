@@ -132,7 +132,6 @@ module.exports = {
     }
  }, 
     
-
   async contarUsuarios(){
     try {
       const contar = await User.count()

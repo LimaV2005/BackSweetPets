@@ -49,6 +49,7 @@ module.exports = {
       throw new Error("Ocorreu um erro ao fechar o pedido.");
     }
   },
+  
   async consultarPedido(id_pedido) {
     try {
       const row = await pedidosItem.findAll({
@@ -63,6 +64,7 @@ module.exports = {
       }
     } catch (error) {}
   },
+
   async avaliarProduto(id_usuario, id_produto, nota) {
     const acharUsuario = await User.findOne({ where: { id: id_usuario } });
     const acharProduto = await Produto.findOne({ where: { id: id_produto } });
