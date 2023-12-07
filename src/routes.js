@@ -10,7 +10,6 @@ const pedidosController = require('./controller/pedidosController.js')
 const mandarEmail = require('./utils/mandarEmail.js')
 
 
-
 // ROTAS TIPO GET ----------------
 router.get('/', (req,res)=>{
     res.json("oi regis my love")
@@ -26,10 +25,10 @@ router.get('/produtosvendidos', loginverify, pedidosController.maisVendido)// pr
 router.get('/maiorcomprador', adminverify, cadastroController.maiorComprador)// maior comprador
 router.get('/totalvendas', adminverify, pedidosController.totalVendido)//
 
-
 // ROTAS TIPO PUT ---------------
 router.put('/atualizar', cadastroController.update)// atualizar cadastro
 router.put('/atualizar/produto', loginverify, adminverify, produtoController.updateProduct) // atualizar produto
+router.put('/atualizarcarrinho', loginverify, carrinhoController.atualizarCarrinho)
 
 //ROTAS TIPO POST ---------------
 router.post('/criar', cadastroController.store)//criar usuário
@@ -38,9 +37,8 @@ router.post('/add', loginverify, adminverify, produtoController.addProduto) // a
 // router.post('/buy', loginverify, mandarEmail , produtoController.buyProduct) // comprar produto só logado
 router.post('/addCarrinho', loginverify, carrinhoController.addCarrinho) // adicionar ao carrinho
 router.post('/addLista', loginverify, listadesejosController.addLista) // add a lista
-router.post('/fechar', loginverify, mandarEmail, pedidosController.fecharPedido)//  fechar pedido
-router.post('/avaliar', loginverify, pedidosController.avaliarProduto) // avaliar produto
-
+router.post('/fechar', loginverify, mandarEmail, pedidosController.fecharPedido)//fechar pedido
+router.post('/avaliar', loginverify, pedidosController.avaliarProduto) //avaliar produto
 
 //ROTAS DELETE   --------------
 router.delete('/del', cadastroController.delete)//deletar usuário
@@ -48,9 +46,7 @@ router.delete('/deletarproduto', adminverify, produtoController.deletarProduto)/
 router.delete('/carrinhodel', loginverify, carrinhoController.removeCarrinho)//remover do carrinho
 router.delete('/listadel', loginverify, listadesejosController.removeLista)//remover da lista de desejos
 router.delete('/resetcarrinho', carrinhoController.deletarCarrinho) //resetar carrinho
-
-
-
+router.delete('/', loginverify, carrinhoController.excluirSeuCarrinho)
 
 
 module.exports = router

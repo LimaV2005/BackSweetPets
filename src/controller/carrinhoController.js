@@ -17,7 +17,11 @@ module.exports = {
     },
 
     async atualizarCarrinho(req,res){
-        //TENHO QUE FAZER
+        const id_produto = req.body.id_produto
+        const id_usuario = req.body.id_usuario
+        const {quantidade} = req.body
+        const row = await carrinhoRepository.atualizaCarrinho(id_produto, id_usuario, quantidade)
+        res.json(row)
     },
 
     async removeCarrinho(req, res){
@@ -25,6 +29,12 @@ module.exports = {
         const id_produto = req.body.id_produto
         
         const row = await carrinhoRepository.removeCarrinho(id_produto, id_usuario)
+        res.json(row)
+    },
+
+    async excluirSeuCarrinho(req,res){
+        const id_usuario = req.body.id_usuario
+        const row = await carrinhoRepository.excluirSeuCarrinho(id_usuario)
         res.json(row)
     },
 
