@@ -46,10 +46,10 @@ module.exports = {
       }
     } catch (error) {
       console.error("Erro ao fechar o pedido:", error);
-      throw new Error("Ocorreu um erro ao fechar o pedido.");
+      return "Ocorreu um erro ao fechar o pedido.";
     }
   },
-  
+
   async consultarPedido(id_pedido) {
     try {
       const row = await pedidosItem.findAll({
@@ -62,7 +62,9 @@ module.exports = {
       } else {
         return "Oops, pedido não encontrado! :/";
       }
-    } catch (error) {}
+    } catch (error) {
+      return error;
+    }
   },
 
   async avaliarProduto(id_usuario, id_produto, nota) {
@@ -124,5 +126,3 @@ module.exports = {
     }
   },
 };
-
-

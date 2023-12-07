@@ -14,7 +14,7 @@ module.exports = {
         return "Nenhum item na lista de desejos encontrado.";
       }
     } catch (error) {
-      throw new Error("Erro ao consultar lista: " + error.message);
+      return ("Erro ao consultar lista: " + error.message);
     }
   },
 
@@ -37,7 +37,7 @@ module.exports = {
         return "Produto não encontrado para adicionar à lista";
       }
     } catch (error) {
-      throw new Error("Erro ao adicionar na lista: " + error.message);
+      return ("Erro ao adicionar na lista: " + error.message);
     }
   },
 
@@ -57,7 +57,7 @@ module.exports = {
         return "Produto não encontrado para remover da lista";
       }
     } catch (error) {
-      throw new Error("Erro ao remover do carrinho: " + error.message);
+      return ("Erro ao remover do carrinho: " + error.message);
     }
   },
 };

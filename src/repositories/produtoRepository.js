@@ -24,7 +24,7 @@ module.exports = {
         return newProduto;
       }
     } catch (error) {
-      throw new Error(error.message);
+      return (error.message);
     }
   },
 

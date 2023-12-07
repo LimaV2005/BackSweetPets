@@ -7,7 +7,7 @@ const pedidosItem = require("../models/pedido.js")
 const Sequelize = require("sequelize")
 
 module.exports = {
-  async create(nome, email, senha1, cargo) {    // criar usuario
+  async create(nome, email, senha1, cargo) {
     const hashedSenha = await bcrypt.hash(senha1, 10);
     const senha = hashedSenha;
     try {
@@ -71,7 +71,7 @@ module.exports = {
     
   },
 
-  async update(id, nome, email, senha1) {
+  async update(id, nome, email, senha1) { 
     try {
           const hashedSenha = await bcrypt.hash(senha1, 10);
           const senha = hashedSenha;
@@ -164,7 +164,7 @@ module.exports = {
       return maiorComprador;
     } catch (error) {
       console.error('Ocorreu um erro:', error);
-      throw error; // Lança o erro para que ele possa ser tratado externamente
+      return error; 
     }
   }
   
