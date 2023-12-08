@@ -6,22 +6,24 @@ module.exports = {
   async consultaCarrinho(id_usuario) {
     try {
       const row = await Carrinho.findAll({ where: { id_usuario } });
-      if (row && row.length > 0) {
-        return row;
-      } else {
+      
+      if (!row || (Array.isArray(row) && row.length === 0)) {
         return "Nenhum item no carrinho encontrado.";
       }
+  
+      return row;
     } catch (error) {
-      return ("Erro ao consultar carrinho: " + error.message);
+      throw error;
     }
   },
 
   async addCarrinho(id_produto, id_usuario, quantidade) {
     try {
       const produto = await Produto.findOne({ where: { id: id_produto } });
-      console.log(id_usuario);
-      const { descricao, preco, categoria } = produto;
+  
       if (produto) {
+        const { descricao, preco, categoria } = produto;
+  
         const adicionar = await Carrinho.create({
           id_produto,
           id_usuario: id_usuario,
@@ -30,13 +32,13 @@ module.exports = {
           quantidade,
           categoria,
         });
-
+  
         return adicionar;
       } else {
-        return "Produto não encontrado para adicionar ao carrinho, ou usuario invalido. Tente novamente em instantes.";
+        return "Produto não encontrado para adicionar ao carrinho, ou usuário inválido. Tente novamente em instantes.";
       }
     } catch (error) {
-      return ("Erro ao adicionar no carrinho: " + error.message);
+      throw error;
     }
   },
 
@@ -45,6 +47,7 @@ module.exports = {
       const produto = await Carrinho.findOne({
         where: { id_produto: id_produto, id_usuario: id_usuario },
       });
+  
       if (produto) {
         const nome = produto.nome_produto;
         await Carrinho.destroy({
@@ -52,10 +55,10 @@ module.exports = {
         });
         return "Produto removido com sucesso: " + nome;
       } else {
-        return ("Produto não encontrado para remover da lista");
+        return "Produto não encontrado para remover da lista";
       }
     } catch (error) {
-      return ("Erro ao remover do carrinho: " + error.message);
+      throw error;
     }
   },
 
@@ -69,12 +72,12 @@ module.exports = {
         if (prodCarrinho) {
           const { descricao, preco, categoria } = produto;
   
-          const atualizado = await Carrinho.update(
+          await Carrinho.update(
             { id_usuario, descricao, preco, quantidade, categoria },
             { where: { id_produto: id_produto, id_usuario: id_usuario } }
           );
   
-          return ("Quantidade atualizada");
+          return "Quantidade atualizada";
         } else {
           return "Produto encontrado, mas não no carrinho deste usuário.";
         }
@@ -82,22 +85,35 @@ module.exports = {
         return "Produto não encontrado.";
       }
     } catch (error) {
-      return "Erro ao adicionar no carrinho: " + error.message;
+      throw error;
     }
   },
 
   async excluirSeuCarrinho(id_usuario) {
-    const user = User.findOne({where: {id:id_usuario}})
-    const nome = user.nome
-    const row = await Carrinho.destroy({where: {id_usuario: id_usuario}});
-    return ("Todos os registros foram apagados do carrinho de " + nome);
+    try {
+      const user = await User.findOne({ where: { id: id_usuario } });
+      if (user) {
+        const nome = user.nome;
+        await Carrinho.destroy({ where: { id_usuario: id_usuario } });
+        return "Todos os registros foram apagados do carrinho de " + nome;
+      } else {
+        return "Usuário não encontrado para excluir o carrinho";
+      }
+    } catch (error) {
+      throw error;
+    }
   },
 
   async deletarCarrinho() {
-    const row = await Carrinho.destroy({
-      where: {},
-      truncate: true,
-    });
-    return "Todos os registros foram apagados do carrinho";
+    try {
+      const row = await Carrinho.destroy({
+        where: {},
+        truncate: true,
+      });
+  
+      return "Todos os registros foram apagados do carrinho";
+    } catch (error) {
+      throw error;
+    }
   },
 };

@@ -11,133 +11,129 @@ module.exports = {
     const hashedSenha = await bcrypt.hash(senha1, 10);
     const senha = hashedSenha;
     try {
-      const userValid = await User.findOne({where: {email}})
+      const userValid = await User.findOne({ where: { email } });
       if (!userValid) {
-      const newUser = await User.create({ nome, email, senha, cargo });
-      const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-          user: "limag9006@gmail.com",
-          pass: "qtna upxr kggp uxps",
-        },
-      });
-      transporter
-        .sendMail({
-          from: "Limag9006 <limag9006@gmail.com>",
-          to: `${email}`,
-          subject:
-            "Bem-vindo à SweetPets - O Seu Espaço para Amantes de Animais!",
-          text: "Olá" + `${nome}` + "",
-          html: `${mensagem}`,
-        })
-        .then(() => console.log(`Email enviado para ${email}`))
-        .catch((erro) => console.log(erro));
-      return (newUser);
-    } else {
-      return ('Usuário já cadastrado, tente logar!')
-    }
+        const newUser = await User.create({ nome, email, senha, cargo });
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 465,
+          secure: true,
+          auth: {
+            user: "limag9006@gmail.com",
+            pass: "qtna upxr kggp uxps",
+          },
+        });
+        transporter
+          .sendMail({
+            from: "Limag9006 <limag9006@gmail.com>",
+            to: `${email}`,
+            subject:
+              "Bem-vindo à SweetPets - O Seu Espaço para Amantes de Animais!",
+            text: `Olá ${nome}`,
+            html: `${mensagem}`,
+          })
+          .then(() => console.log(`Email enviado para ${email}`))
+          .catch((erro) => console.log(erro));
+        return newUser;
+      } else {
+        return { error: "Usuário já cadastrado, tente logar!" };
+      }
     } catch (error) {
-      console.error("Erro ao criar o usuário:", error.message);
-      return ("deu bom n");
+      throw error;
     }
   },
+  
 
   async findAll() {
     try {
       const allUsers = await User.findAll();
-      if (!allUsers) {
-        console.log("Não achou");
+      
+      if (!allUsers || allUsers.length === 0) {
+        return { error: "Usuários não cadastrados!" };
       } else {
-        return (allUsers);
+        return allUsers;
       }
     } catch (error) {
-      return ("deu bom n");
+      throw error;
     }
   },
 
   async findId(id) {
     try {
       const oneUser = await User.findByPk(id);
-      if (!oneUser) {
-        return ("Não achou o usuario");
-      } else {
-        return (oneUser);
-      }
+      return oneUser; 
     } catch (error) {
-      return ("deu bom n");
+      throw error; 
     }
-    
   },
 
-  async update(id, nome, email, senha1) { 
+  async update(id, nome, email, senha1) {
     try {
-          const hashedSenha = await bcrypt.hash(senha1, 10);
-          const senha = hashedSenha;
-          const oneUser = await User.findByPk(id);
-          if (!oneUser) {
-            return ("Não achou");
-          } else {
-            const user = User.update({ nome, email, senha }, { where: { id } });
-            const newUser = await User.findByPk(id);
-            return (newUser);
-          }
-        } catch (error) {
-          return ("deu bom n");
-        }
-
-    // atualizar dados
+      const hashedSenha = await bcrypt.hash(senha1, 10);
+      const senha = hashedSenha;
+      const oneUser = await User.findByPk(id);
+      
+      if (!oneUser) {
+        return { error: "Usuário não cadastrado, verifique as credenciais!" };
+      } else {
+        await User.update({ nome, email, senha }, { where: { id } });
+        const newUser = await User.findByPk(id);
+        return newUser;
+      }
+    } catch (error) {
+      throw error;
+    }
   },
 
   async delete(id) {
     try {
       const user = await User.findOne({ where: { id } });
+      
       if (!user) {
-        return ("Usuario não encontrado, verifique o id");
+        return { error: "Usuário não cadastrado, verifique as credenciais!" };
       } else {
         await User.destroy({ where: { id } });
-        return ("Usuario excluido");
+        return { message: "Usuário excluído" };
       }
     } catch (error) {
-      return error
+      throw error;
     }
-    
   },
+  
 
   async login(email, senha) {
     try {
       const user = await User.findOne({ where: { email } });
   
       if (user) {
-        const user = await User.findOne({ where: { email } });
-        const row = user 
+        const row = user;
         const senhaHash = row.senha;
-        const Certa = await bcrypt.compare(senha, senhaHash) 
-        console.log(Certa)
-
-        if(Certa){
-          const token = jwt.sign({email: row.email, nome: row.nome,id: row.id, cargo: row.cargo},"segredo",{expiresIn: "1h",})
-          return ({ user: row, token: token })
+        const Certa = await bcrypt.compare(senha, senhaHash);
+  
+        if (Certa) {
+          const token = jwt.sign(
+            { email: row.email, nome: row.nome, id: row.id, cargo: row.cargo },
+            "segredo",
+            { expiresIn: "1h" }
+          );
+          return { user: row, token: token };
         } else {
-        return ({ message: "Dados incorretos ou usuário não existe" });
-          
+          return { error: "Dados incorretos ou usuário não existe" };
         }
-        
       } else {
-        return ({ message: "Dados incorretos ou usuário não existe" });
+        return { error: "Dados incorretos ou usuário não existe" };
       }
     } catch (error) {
-      return (error);
+      throw error;
     }
- }, 
+  },
     
-  async contarUsuarios(){
+  async contarUsuarios() {
     try {
-      const contar = await User.count()
-      return (`Existem ${contar} usuários cadastrados atualmente`)
+      const contar = await User.count();
+      return `Existem ${contar} usuários cadastrados atualmente`;
     } catch (error) {
-      return error
+      throw error;
     }
   },
 
@@ -148,7 +144,7 @@ module.exports = {
           'id_usuario',
           [Sequelize.fn('COUNT', Sequelize.col('id_usuario')), 'aparicoes'],
         ],
-        group: ['id_usuario'], // Corrigido para agrupar por id_usuario
+        group: ['id_usuario'],
         order: Sequelize.literal('COUNT(id_usuario) DESC'),
       });
   
@@ -164,9 +160,10 @@ module.exports = {
       return maiorComprador;
     } catch (error) {
       console.error('Ocorreu um erro:', error);
-      return error; 
+      throw error;
     }
   }
+  
   
 
 };
