@@ -8,22 +8,24 @@ module.exports = {
   async consultaLista(id_usuario) {
     try {
       const row = await listadesejos.findAll({ where: { id_usuario } });
+  
       if (row && row.length > 0) {
         return row;
       } else {
         return "Nenhum item na lista de desejos encontrado.";
       }
     } catch (error) {
-      return ("Erro ao consultar lista: " + error.message);
+      throw error;
     }
   },
 
   async addLista(id_usuario, id_produto) {
     try {
       const produto = await Produto.findOne({ where: { id: id_produto } });
-      const { descricao, preco, categoria } = produto;
       const usuario = await User.findOne({ where: { id: id_usuario } });
+  
       if (produto) {
+        const { descricao, preco, categoria } = produto;
         const adicionar = await listadesejos.create({
           id_produto,
           id_usuario,
@@ -31,15 +33,16 @@ module.exports = {
           preco,
           categoria,
         });
-
+  
         return adicionar;
       } else {
         return "Produto não encontrado para adicionar à lista";
       }
     } catch (error) {
-      return ("Erro ao adicionar na lista: " + error.message);
+      throw error;
     }
   },
+  
 
   async removeLista(id_produto, id_usuario) {
     try {
@@ -47,6 +50,7 @@ module.exports = {
         where: { id_produto: id_produto, id_usuario: id_usuario },
       });
       const nome_produto = await Produto.findOne({ where: { id: id_produto } });
+  
       if (produto) {
         const nome = nome_produto.nome_produto;
         await listadesejos.destroy({
@@ -57,7 +61,7 @@ module.exports = {
         return "Produto não encontrado para remover da lista";
       }
     } catch (error) {
-      return ("Erro ao remover do carrinho: " + error.message);
+      throw error;
     }
   },
 };

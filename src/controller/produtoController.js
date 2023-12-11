@@ -2,36 +2,77 @@ const produtoRepository = require("../repositories/produtoRepository");
 
 
 module.exports = {
-    async allProducts(req,res){
-      const row = await produtoRepository.allProduct()
-        res.json(row)
-    },
-
-    async addProduto(req, res){
-    const nome_produto = req.body.nome;
-    const descricao = req.body.descricao;
-    const preco = req.body.preco;
-    const categoria = req.body.categoria;
-    const row = await produtoRepository.addProduct(nome_produto, descricao, preco, categoria);
-    res.json(row);
+  async allProducts(req, res){
+    try {
+      const row = await produtoRepository.allProduct();
+      
+      if (row && row.length > 0) {
+        res.status(200).json(row);
+      } else {
+        res.status(404).json({ error: "Nenhum produto encontrado" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao buscar todos os produtos" });
+    }
   },
 
-  async buyProduct(req,res){
-    const {id} = req.body
-    const row = await produtoRepository.buyProduct(id)
-    res.json(row)
-  }, 
+  async addProduto(req, res){
+    try {
+      const { nome, descricao, preco, categoria } = req.body;
+      const row = await produtoRepository.addProduct(nome, descricao, preco, categoria);
+      
+      if (row && row !== "Produto já cadastrado, tente outro nome" && !row.includes("Validation error")) {
+        res.status(201).json(row);
+      } else {
+        res.status(400).json({ error: row });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao adicionar o produto" });
+    }
+  },
+
+  async buyProduct(req, res){
+    try {
+      const { id } = req.body;
+      const row = await produtoRepository.buyProduct(id);
+  
+      if (row && row !== "Compra NÃO concluída, tente novamente") {
+        res.status(200).json({ message: row });
+      } else {
+        res.status(400).json({ error: row });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao comprar o produto" });
+    }
+  },
 
   async updateProduct(req, res){
-    const { id } = req.body
-    const {nome_produto, descricao, preco, categoria} = req.body
-    const row = await produtoRepository.updateProduct(id, nome_produto, descricao, preco, categoria)
-    res.json(row)
+    try {
+      const { id, nome_produto, descricao, preco, categoria } = req.body;
+      const row = await produtoRepository.updateProduct(id, nome_produto, descricao, preco, categoria);
+  
+      if (row && row !== "Não achou produto") {
+        res.status(200).json(row);
+      } else {
+        res.status(404).json({ error: "Produto não encontrado" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao atualizar o produto" });
+    }
   },
 
-  async deletarProduto(req,res){
-    const {id} = req.body
-    const row = await produtoRepository.deletarProduto(id)
-    res.json(row)
-  }
+  async deletarProduto(req, res){
+    try {
+      const { id } = req.body;
+      const row = await produtoRepository.deletarProduto(id);
+  
+      if (row && row !== "Produto não encontrado, verifique o id") {
+        res.status(200).json({ message: row });
+      } else {
+        res.status(404).json({ error: "Produto não encontrado" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao excluir o produto" });
+    }
+  },
 }
