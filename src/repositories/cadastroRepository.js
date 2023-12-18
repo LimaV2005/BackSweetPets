@@ -104,7 +104,7 @@ module.exports = {
   async login(email, senha) {
     try {
       const user = await User.findOne({ where: { email } });
-  
+      
       if (user) {
         const row = user;
         const senhaHash = row.senha;
