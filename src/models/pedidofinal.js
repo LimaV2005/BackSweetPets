@@ -29,29 +29,3 @@ const pedidofinal = sequelize.define(
   }
 );
 module.exports = pedidofinal;
-
-
-
-// const { Model, DataTypes } = require("sequelize");
-
-// class PedidoFinal extends Model {
-//   static init(sequelize) {
-//     super.init(
-//       {
-//         id_pedido: DataTypes.INTEGER,
-//         id_usuario: DataTypes.INTEGER,
-//         valor_pedido: DataTypes.DECIMAL(10, 2),
-//         estado: DataTypes.INTEGER,
-//         createdAt: DataTypes.DATE,
-//         updatedAt: DataTypes.DATE,
-//       },
-//       {
-//         sequelize,
-//         modelName: "pedidofinal",
-//         tableName: "pedidosfinal",
-//       }
-//     );
-//   }
-// }
-
-// module.exports = PedidoFinal;

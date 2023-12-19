@@ -1,5 +1,4 @@
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
 const cadastroRepository = require("../repositories/cadastroRepository.js");
 
 module.exports = {

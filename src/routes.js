@@ -22,7 +22,7 @@ router.get('/pedidos', loginverify, pedidosController.consultarPedido) // consul
 router.get('/totalusuarios', adminverify, cadastroController.todosUsuarios)//contar todos os pedidos
 router.get('/produtosvendidos', loginverify, pedidosController.maisVendido)// produto mais vendido
 router.get('/maiorcomprador', adminverify, cadastroController.maiorComprador)// maior comprador
-router.get('/totalvendas', adminverify, pedidosController.totalVendido)//
+router.get('/totalvendas', adminverify, pedidosController.totalVendido)//ver tudo q foi vendido
 
 // ROTAS TIPO PUT ---------------
 router.put('/atualizar',  adminverify, cadastroController.update)// atualizar cadastro
@@ -40,8 +40,8 @@ router.post('/fechar', loginverify, mandarEmail, pedidosController.fecharPedido)
 router.post('/avaliar', loginverify, pedidosController.avaliarProduto) //avaliar produto
 
 //ROTAS DELETE   --------------
-router.delete('/del', cadastroController.delete)//deletar usuário
-router.delete('/deletarproduto',  produtoController.deletarProduto)// deletar produto 
+router.delete('/del', adminverify, cadastroController.delete)//deletar usuário
+router.delete('/deletarproduto',  adminverify, produtoController.deletarProduto)// deletar produto 
 router.delete('/carrinhodel', loginverify, carrinhoController.removeCarrinho)//remover do carrinho
 router.delete('/listadel', loginverify, listadesejosController.removeLista)//remover da lista de desejos
 router.delete('/resetcarrinho', loginverify, carrinhoController.deletarCarrinho) //resetar carrinho
