@@ -16,7 +16,7 @@ module.exports = {
       }
   
       const pedido = await carrinho.findAll({ where: { id_usuario } });
-  
+      const idpedido = Math.floor(Math.random() * 1000) + 1
       if (pedido.length > 0) {
         console.log("Pedido realizado");
         return `Pedido realizado com sucesso! Prossiga para realizar o pagamento, o id do seu pedido é ${idpedido}`;
