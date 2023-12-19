@@ -20,7 +20,7 @@ module.exports = {
   async addCarrinho(id_produto, id_usuario, quantidade) {
     try {
       const produto = await Produto.findOne({ where: { id: id_produto } });
-  
+      console.log(produto)
       if (produto) {
         const { descricao, preco, categoria } = produto;
   
@@ -38,6 +38,7 @@ module.exports = {
         return "Produto não encontrado para adicionar ao carrinho, ou usuário inválido. Tente novamente em instantes.";
       }
     } catch (error) {
+      console.log(error)
       throw error;
     }
   },

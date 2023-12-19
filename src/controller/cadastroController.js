@@ -97,7 +97,7 @@ module.exports = {
       }
   
       res.status(200).json(row);
-      console.log("Usuario logado ->", email, "Senha: ", senha);
+      console.log("Usuario logado ->", email);
     } catch (error) {
       res.status(500).json({ error: "Ocorreu um erro ao fazer login" });
     }

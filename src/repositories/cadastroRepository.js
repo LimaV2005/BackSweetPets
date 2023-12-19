@@ -116,7 +116,7 @@ module.exports = {
             "segredo",
             { expiresIn: "1h" }
           );
-          return { user: row, token: token };
+          return { email: row.email, nome: row.nome, id: row.id, cargo: row.cargo, token: token };
         } else {
           return { error: "Dados incorretos ou usuário não existe" };
         }

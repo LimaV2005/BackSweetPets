@@ -6,7 +6,7 @@ const config= {
     port: 3306,
     username: "root",
     password: "toor",
-    database: "teste",
+    database: "sweetpets",
     define: {
         timestamps: true,
         underscored: true,
