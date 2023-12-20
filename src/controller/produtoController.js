@@ -75,4 +75,19 @@ module.exports = {
       res.status(500).json({ error: "Erro ao excluir o produto" });
     }
   },
+
+  async filtrarCategoria(req,res){
+    try {
+      const { categoria } = req.body;
+      const row = await produtoRepository.filtrarCategoria(categoria);
+  
+      if (row && row !== "Produtos não encontrado, verifique a categoria") {
+        res.status(200).json({ message: row });
+      } else {
+        res.status(404).json({ error: "Produtos não encontrados" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao filtrar os produto" });
+    }
+  }
 }

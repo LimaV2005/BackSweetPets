@@ -41,12 +41,10 @@ module.exports = {
       if (!prod) {
         return "Compra NÃO concluída, tente novamente";
       } else {
-        // Aqui falta a definição de idpedido e id_usuario, será necessário fornecer esses valores
-        // Além disso, é necessário definir como você está gerenciando esses valores ou criar esses valores antes de utilizar
         const abrirPedido = await PedidoFinal.create({
-          id_pedido: idpedido, // Defina o valor de idpedido
-          id_usuario: id_usuario, // Defina o valor de id_usuario
-          valor_pedido: valor_total, // Defina o valor de valor_total
+          id_pedido: idpedido, //
+          id_usuario: id_usuario, 
+          valor_pedido: valor_total, 
           estado: '1',
         });
   
@@ -92,7 +90,20 @@ module.exports = {
       console.error("Erro ao excluir o produto:", error);
       return error.message;
     }
-  }
+  },
 
+  async filtrarCategoria(categoria){
+    try {
+      const produtos = await Produto.findAll({ where: { categoria: categoria } });
   
+      if (!produtos) {
+        return "Produtos não encontrado, verifique a categoria";
+      } else {
+        return produtos;
+      }
+    } catch (error) {
+      console.error("Erro ao excluir o produto:", error);
+      return error.message;
+    }
+  }
 };

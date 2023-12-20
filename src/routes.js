@@ -38,6 +38,7 @@ router.post('/addCarrinho', loginverify, carrinhoController.addCarrinho) // adic
 router.post('/addLista', loginverify, listadesejosController.addLista) // add a lista
 router.post('/fechar', loginverify, mandarEmail, pedidosController.fecharPedido)//fechar pedido
 router.post('/avaliar', loginverify, pedidosController.avaliarProduto) //avaliar produto
+router.post('/filtrar', loginverify, produtoController.filtrarCategoria)
 
 //ROTAS DELETE   --------------
 router.delete('/del', adminverify, cadastroController.delete)//deletar usuário
