@@ -18,8 +18,8 @@ module.exports = {
 
   async addProduto(req, res){
     try {
-      const { nome, descricao, preco, categoria } = req.body;
-      const row = await produtoRepository.addProduct(nome, descricao, preco, categoria);
+      const { nome, descricao, preco, categoria, selo } = req.body;
+      const row = await produtoRepository.addProduct(nome, descricao, preco, categoria, selo);
       
       if (row && row !== "Produto já cadastrado, tente outro nome" && !row.includes("Validation error")) {
         res.status(201).json(row);
