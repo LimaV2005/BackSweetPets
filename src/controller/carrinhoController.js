@@ -1,20 +1,23 @@
 const carrinhoRepository = require('../repositories/carrinhoRepository')
 
 module.exports = {
-    async consultaCarrinho(req, res){
-        try {
-          const { id_usuario } = req.body;
-          const row = await carrinhoRepository.consultaCarrinho(id_usuario);
-          
-          if (!row || (Array.isArray(row) && row.length === 0)) {
-            return res.status(404).json({ error: "Nenhum item no carrinho encontrado." });
-          }
-      
-          res.status(200).json(row);
-        } catch (error) {
-          res.status(500).json({ error: "Erro ao consultar o carrinho" });
-        }
-      },
+  async consultaCarrinho(req, res){
+    try {
+      console.log('oi')
+      const { id_usuario } = req.body;
+      const row = await carrinhoRepository.consultaCarrinho(id_usuario);
+            
+      if (!row) {
+        return res.status(404).json({ error: "Nenhum item no carrinho encontrado." });
+      }
+        
+      res.status(200).json(row);
+    } catch (error) {
+      console.log(error); // Registrar o erro para depuração
+      res.status(500).json({ error: "Erro ao consultar o carrinho" });
+    }
+  },
+  
 
       async addCarrinho(req, res){
         try {

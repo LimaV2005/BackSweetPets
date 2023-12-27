@@ -5,12 +5,6 @@ module.exports = {
    up (queryInterface, Sequelize) {
    
      return queryInterface.createTable('carrinho', { 
-       id: {
-        allowNull: false,
-        autoIncrement:true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
        id_produto: {
         allowNull: false,
         type: Sequelize.INTEGER

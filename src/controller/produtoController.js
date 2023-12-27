@@ -18,16 +18,17 @@ module.exports = {
 
   async addProduto(req, res){
     try {
-      const { nome, descricao, preco, categoria, selo } = req.body;
-      const row = await produtoRepository.addProduct(nome, descricao, preco, categoria, selo);
+      const { nome, descricao, preco, categoria} = req.body;
+      const row = await produtoRepository.addProduct(nome, descricao, preco, categoria);
       
-      if (row && row !== "Produto já cadastrado, tente outro nome" && !row.includes("Validation error")) {
+      if (row && row !== "Produto já cadastrado, tente outro nome") {
         res.status(201).json(row);
       } else {
         res.status(400).json({ error: row });
       }
     } catch (error) {
-      res.status(500).json({ error: "Erro ao adicionar o produto" });
+      res.status(500).json(error);
+      console.log(error)
     }
   },
 

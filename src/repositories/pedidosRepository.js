@@ -10,15 +10,40 @@ module.exports = {
   async fecharPedido(id_usuario) {
     try {
       const cliente = await User.findOne({ where: { id: id_usuario } });
-  
       if (!cliente) {
         return "Cliente não encontrado. Verifique o ID fornecido.";
       }
   
-      const pedido = await carrinho.findAll({ where: { id_usuario } });
-      const idpedido = Math.floor(Math.random() * 1000) + 1
+      const pedido = await carrinho.findAll({
+        where: { id_usuario },
+        attributes: ['id_produto', 'id_usuario', 'descricao', 'preco', 'quantidade', 'categoria']
+      });
+  
+      const idpedido = Math.floor(Math.random() * 1000) + 1;
+  
       if (pedido.length > 0) {
         console.log("Pedido realizado");
+        await Promise.all(pedido.map(async (item) => {
+          await pedidosItem.create({
+            id_pedido: idpedido,
+            id_usuario: item.id_usuario,
+            id_produto: item.id_produto,
+            preco_unidade: item.preco,
+            quantidade: item.quantidade,
+            valor_pedido: item.quantidade * item.preco,
+            
+          });
+        }));
+  
+        const somaPrecos = await pedidosItem.sum('valor_pedido', { where: { id_pedido: idpedido } });
+
+        await PedidoFinal.create({
+          id_pedido: idpedido,
+          id_usuario: id_usuario,
+          valor_pedido: somaPrecos, 
+          estado: "1",
+        });
+  
         return `Pedido realizado com sucesso! Prossiga para realizar o pagamento, o id do seu pedido é ${idpedido}`;
       } else {
         return "O carrinho está vazio. Não é possível criar o pedido.";

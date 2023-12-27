@@ -35,7 +35,6 @@ const pedidos = sequelize.define(
   {
     id_pedido: {
       allowNull: false,
-      primaryKey: true,
       type: DataTypes.INTEGER,
     },
     id_usuario: {

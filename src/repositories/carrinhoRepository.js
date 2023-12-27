@@ -5,8 +5,13 @@ const User = require("../models/User.js");
 module.exports = {
   async consultaCarrinho(id_usuario) {
     try {
-      const row = await Carrinho.findAll({ where: { id_usuario } });
-      
+      const row = await Carrinho.findAll({
+        where: { id_usuario: id_usuario },
+        attributes: ['id_produto', 'id_usuario', 'descricao', 'preco', 'quantidade', 'categoria', 'created_at', 'updated_at']
+      });
+  
+      console.log('oi to aq');
+  
       if (!row || (Array.isArray(row) && row.length === 0)) {
         return "Nenhum item no carrinho encontrado.";
       }
@@ -16,7 +21,7 @@ module.exports = {
       throw error;
     }
   },
-
+  
   async addCarrinho(id_produto, id_usuario, quantidade) {
     try {
       const produto = await Produto.findOne({ where: { id: id_produto } });
@@ -31,6 +36,8 @@ module.exports = {
           preco,
           quantidade,
           categoria,
+        }, {
+          fields: ['id_produto', 'id_usuario', 'descricao', 'preco', 'quantidade', 'categoria']
         });
   
         return adicionar;
@@ -42,6 +49,7 @@ module.exports = {
       throw error;
     }
   },
+  
 
   async removeCarrinho(id_produto, id_usuario) {
     try {

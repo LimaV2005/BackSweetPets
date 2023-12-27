@@ -32,7 +32,6 @@ const Carrinho = sequelize.define(
   {
     id_produto: {
       allowNull: false,
-      primaryKey: true,
       type: DataTypes.INTEGER,
     },
     id_usuario: {

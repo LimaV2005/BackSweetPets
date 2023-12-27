@@ -25,9 +25,10 @@ module.exports = {
           descricao,
           preco,
           categoria,
-          selo,
         });
+        console.log(newProduto)
         return newProduto;
+        
       }
     } catch (error) {
       console.error("Erro ao adicionar o produto:", error);
@@ -65,7 +66,7 @@ module.exports = {
         return "Não achou produto";
       } else {
         await Produto.update(
-          { nome_produto, descricao, preco, categoria, selo },
+          { nome_produto, descricao, preco, categoria },
           { where: { id } }
         );
         const newProduto = await Produto.findByPk(id);
