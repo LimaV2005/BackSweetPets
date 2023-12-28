@@ -53,6 +53,7 @@ module.exports = {
             res.status(500).json({ error: "Erro ao atualizar o carrinho" });
           }
         } catch (error) {
+          console.log(error)
           res.status(500).json({ error: "Erro ao atualizar o carrinho" });
         }
       },

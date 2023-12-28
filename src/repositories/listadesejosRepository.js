@@ -21,27 +21,45 @@ module.exports = {
 
   async addLista(id_usuario, id_produto) {
     try {
+      const produtoNaLista = await listadesejos.findOne({
+        where: {
+          id_usuario: id_usuario,
+          id_produto: id_produto
+        }
+      });
+  
+      if (produtoNaLista) {
+        return "Produto já está na lista de desejos";
+      }
+  
       const produto = await Produto.findOne({ where: { id: id_produto } });
       const usuario = await User.findOne({ where: { id: id_usuario } });
   
-      if (produto) {
-        const { descricao, preco, categoria } = produto;
-        const adicionar = await listadesejos.create({
-          id_produto,
-          id_usuario,
-          descricao,
-          preco,
-          categoria,
-        });
-  
-        return adicionar;
-      } else {
-        return "Produto não encontrado para adicionar à lista";
+      if (!produto) {
+        return "Produto não encontrado";
       }
+  
+      if (!usuario) {
+        return "Usuário não encontrado";
+      }
+  
+      const { descricao, preco, categoria } = produto;
+      const adicionar = await listadesejos.create({
+        id_produto,
+        id_usuario: id_usuario,
+        descricao,
+        preco,
+        categoria,
+      });
+  
+      return adicionar;
     } catch (error) {
+      console.log(error)
       throw error;
     }
   },
+  
+  
   
 
   async removeLista(id_produto, id_usuario) {

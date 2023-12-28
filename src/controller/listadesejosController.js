@@ -17,23 +17,23 @@ module.exports = {
         }
       },
 
-    async addLista(req, res){
+      async addLista(req, res){
         try {
           const id_produto = req.body.id_produto;
           const id_usuario = req.body.id_usuario;
       
           const row = await listadesejosRepository.addLista(id_usuario, id_produto);
       
-          if (row && !row.includes("Produto não encontrado para adicionar à lista")) {
+          if (row !== null) { // Verifica se row é diferente de null ou undefined
             res.status(201).json(row);
           } else {
-            res.status(404).json({ error: row });
+            res.status(404).json({ error: "Produto não encontrado para adicionar à lista" });
           }
         } catch (error) {
           res.status(500).json({ error: "Erro ao adicionar o produto à lista de desejos" });
         }
       },
-
+      
     async removeLista(req, res){
         try {
           const id_produto = req.body.id_produto;

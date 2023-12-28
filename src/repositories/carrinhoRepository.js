@@ -25,8 +25,11 @@ module.exports = {
   async addCarrinho(id_produto, id_usuario, quantidade) {
     try {
       const produto = await Produto.findOne({ where: { id: id_produto } });
-      console.log(produto)
-      if (produto) {
+      
+      const existeCarrinho = await Carrinho.findOne({where: { id_produto: id_produto, id_usuario: id_usuario}, 
+        attributes: ['id_produto', 'id_usuario', 'descricao', 'categoria']
+      })
+      if (!existeCarrinho || !produto) {
         const { descricao, preco, categoria } = produto;
   
         const adicionar = await Carrinho.create({
@@ -42,7 +45,7 @@ module.exports = {
   
         return adicionar;
       } else {
-        return "Produto não encontrado para adicionar ao carrinho, ou usuário inválido. Tente novamente em instantes.";
+        throw error
       }
     } catch (error) {
       console.log(error)
@@ -73,10 +76,10 @@ module.exports = {
 
   async atualizaCarrinho(id_produto, id_usuario, quantidade) {
     try {
-      const produto = await Produto.findOne({ where: { id: id_produto } });
+      const produto = await Produto.findOne({ where: { id: id_produto }, attributes: ['preco','descricao', 'categoria'] });
   
       if (produto) {
-        const prodCarrinho = await Carrinho.findOne({ where: { id_produto: id_produto, id_usuario: id_usuario } });
+        const prodCarrinho = await Carrinho.findOne({ where: { id_produto: id_produto, id_usuario: id_usuario }, attributes: ['preco','descricao', 'categoria'] });
   
         if (prodCarrinho) {
           const { descricao, preco, categoria } = produto;
