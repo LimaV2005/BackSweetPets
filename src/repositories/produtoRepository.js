@@ -36,28 +36,6 @@ module.exports = {
     }
   },
 
-  // async buyProduct(id) {
-  //   try {
-  //     const prod = await Produto.findOne({ where: { id } });
-  
-  //     if (!prod) {
-  //       return "Compra NÃO concluída, tente novamente";
-  //     } else {
-  //       const abrirPedido = await PedidoFinal.create({
-  //         id_pedido: idpedido, //
-  //         id_usuario: id_usuario, 
-  //         valor_pedido: valor_total, 
-  //         estado: '1',
-  //       });
-  
-  //       return `Compra realizada com sucesso, aproveite sua(seu) ${prod.nome_produto}`;
-  //     }
-  //   } catch (error) {
-  //     console.error("Erro ao comprar o produto:", error);
-  //     return error.message;
-  //   }
-  // },
-
   async updateProduct(id, nome_produto, descricao, preco, categoria) {
     try {
       const oneProduct = await Produto.findByPk(id);

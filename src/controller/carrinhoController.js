@@ -3,7 +3,6 @@ const carrinhoRepository = require('../repositories/carrinhoRepository')
 module.exports = {
   async consultaCarrinho(req, res){
     try {
-      console.log('oi')
       const { id_usuario } = req.body;
       const row = await carrinhoRepository.consultaCarrinho(id_usuario);
             
@@ -13,7 +12,7 @@ module.exports = {
         
       res.status(200).json(row);
     } catch (error) {
-      console.log(error); // Registrar o erro para depuração
+      console.log(error);
       res.status(500).json({ error: "Erro ao consultar o carrinho" });
     }
   },

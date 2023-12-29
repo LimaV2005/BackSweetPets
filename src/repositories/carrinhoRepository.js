@@ -1,7 +1,7 @@
 const Carrinho = require("../models/carrinho");
 const Produto = require("../models/produtos");
 const User = require("../models/User.js");
-//ATENÇÃO 
+
 module.exports = {
   async consultaCarrinho(id_usuario) {
     try {

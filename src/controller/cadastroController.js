@@ -85,7 +85,7 @@ module.exports = {
     }
   },
 
-  async login(req, res, next) {
+  async login(req, res) {
     const email = req.body.email;
     const senha = req.body.senha;
   

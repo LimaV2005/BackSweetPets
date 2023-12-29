@@ -2,8 +2,7 @@ const Carrinho = require("../models/carrinho");
 const Produto = require("../models/produtos");
 const listadesejos = require("../models/listadesejos");
 const User = require("../models/User");
-const { where } = require("sequelize");
-// ATENÇÃO REFAZER
+
 module.exports = {
   async consultaLista(id_usuario) {
     try {

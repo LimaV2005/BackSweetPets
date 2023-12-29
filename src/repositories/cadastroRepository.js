@@ -168,25 +168,3 @@ module.exports = {
 
 };
 
-
-// try {
-//   const user = await User.findAll({ where: { email } });
-//   if (user.length > 0) {
-//         const row = user;
-//         const senhaHash = row.senha;
-//         bcrypt.compare(senha, senhaHash, (err, result) => {
-//           if (err) {
-//             reject("Erro ao comparar senhas");
-//           } else if (result) {
-//             const token = jwt.sign(
-//               {email: row.email, id: row.id, cargo: row.cargo},
-//               "segredo",
-//               {expiresIn: "1h",}
-//             );
-//             console.log("Logado com sucesso, token de sessão: ", token);
-//             return ({ user: row, token: token });}
-//         });
-//       }
-// } catch (error) {
-//   return ({message:})
-// }

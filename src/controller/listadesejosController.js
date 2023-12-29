@@ -24,7 +24,7 @@ module.exports = {
       
           const row = await listadesejosRepository.addLista(id_usuario, id_produto);
       
-          if (row !== null) { // Verifica se row é diferente de null ou undefined
+          if (row !== null) { 
             res.status(201).json(row);
           } else {
             res.status(404).json({ error: "Produto não encontrado para adicionar à lista" });
